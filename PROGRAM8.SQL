@@ -1,0 +1,29 @@
+DECLARE
+    V_EID EMPLOYEE.EID%TYPE := &EID;
+    V_BASIC EMPLOYEE.BASICSAL%TYPE;
+    V_HRA NUMBER(10,2);
+    V_DA NUMBER(10,2);
+    V_MEDICAL NUMBER(10,2) := 500;
+    V_PF NUMBER(10,2);
+    V_GROSS NUMBER(10,2);
+BEGIN
+    SELECT BASICSAL
+    INTO V_BASIC
+    FROM EMPLOYEE
+    WHERE EID = V_EID;
+
+    V_HRA := V_BASIC * 0.15;
+    V_DA := V_BASIC * 0.50;
+    V_PF := V_BASIC * 0.10;
+
+    V_GROSS := V_BASIC + V_HRA + V_DA + V_MEDICAL - V_PF;
+
+    DBMS_OUTPUT.PUT_LINE('Employee ID  : ' || V_EID);
+    DBMS_OUTPUT.PUT_LINE('Basic Salary : ' || V_BASIC);
+    DBMS_OUTPUT.PUT_LINE('Gross Salary : ' || V_GROSS);
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Employee not found.');
+END;
+/
